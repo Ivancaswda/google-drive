@@ -2,6 +2,7 @@
 import { getFiles, getTotalSpaceUsed } from "@/lib/actions/file.actions";
 import { convertFileSize, getUsageSummary } from "@/lib/utils";
 import DashboardClient from "@/components/DashboardClient";
+import {getCurrentUser} from "@/lib/actions/user.actions";
 
 
 const Dashboard = async () => {
@@ -97,7 +98,7 @@ const Dashboard = async () => {
         </section>
         */}
 
-        <DashboardClient usageSummary={usageSummary} used={used} total={total} files={files} />;
+        <DashboardClient  usageSummary={usageSummary} used={used} total={total} files={files} />;
       </div>
   );
 };

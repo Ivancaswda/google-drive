@@ -19,16 +19,20 @@ import {FolderIcon, ImageIcon, IndentIncreaseIcon, PlusIcon, VideoIcon} from "lu
 import ChartClient from "@/components/ChartClient";
 import {useUpload} from "@/context/UploadContext";
 
+import { loadStripe } from "@stripe/stripe-js";
+import {getCurrentUser} from "@/lib/actions/user.actions";
 
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 interface Props {
   fullName: string;
   avatar: string;
   email: string;
   used: number;
   total: number;
+  currentUser: any
 }
 
-const Sidebar = ({ fullName, avatar, email, used, total }: Props) => {
+const Sidebar =  ({currentUser, used, total }: Props) => {
 
     const pathname = usePathname()
   const { setUploadType, setUploaderOpen } = useUpload(); // добавить
@@ -40,11 +44,17 @@ const Sidebar = ({ fullName, avatar, email, used, total }: Props) => {
   const handleClick = async () => {
     const res = await fetch("/api/create-checkout-session", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId: currentUser?.$id }),
     });
     const data = await res.json();
     const stripe = await stripePromise;
     stripe?.redirectToCheckout({ sessionId: data.id });
+
   };
+  const CHEСKOUT_URL = "https://codevex.lemonsqueezy.com/buy/b4c3a095-fd0c-4258-9506-7fbf79412b16";
 
     return (
     <aside className="sidebar">
@@ -55,20 +65,18 @@ const Sidebar = ({ fullName, avatar, email, used, total }: Props) => {
           width={40}
           height={40}
           className=" hidden h-auto lg:block"
-        />
-          Drive
-
-
-      </Link>
+        />Drive</Link>
 
 
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <Button variant='ghost' className='w-full   border border-black py-6 text-black'>
-            <PlusIcon className='size-12 ' />
-            <p className=' hidden lg:block'>Создать</p>
 
-          </Button>
+            <Button variant='ghost' className='w-full   border border-black py-6 text-black'>
+              <PlusIcon className='size-12 ' />
+              <p className=' hidden lg:block'>Создать</p>
+
+            </Button>
+
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>Загрузить</DropdownMenuLabel>
@@ -131,12 +139,14 @@ const Sidebar = ({ fullName, avatar, email, used, total }: Props) => {
         </div>
       </div> */}
         <ChartClient used={used} total={total}/>
-      <button  className='flex items-center justify-center gap-2 rounded-3xl border  border-blue py-6 font-semibold  text-blue transition hover:scale-105 hover:bg-muted/50 '>
-        <IndentIncreaseIcon className='text-center '/>
-        <p className='hidden lg:block'>
-          Увеличить объём хранилища</p>
 
-      </button>
+
+        <button onClick={handleClick} className='flex items-center justify-center gap-2 rounded-3xl border  border-blue py-6 font-semibold  text-blue transition hover:scale-105 hover:bg-muted/50 '>
+          <IndentIncreaseIcon className='text-center '/>
+          <p className='hidden lg:block'>
+            Увеличить объём хранилища</p>
+
+        </button>
 
     </aside>
   );
