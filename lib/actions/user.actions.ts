@@ -53,15 +53,16 @@ export const createAccount = async ({
     const { databases } = await createAdminClient();
 
     await databases.createDocument(
-      appwriteConfig.databaseId,
-      appwriteConfig.usersCollectionId,
-      ID.unique(),
-      {
-        fullName,
-        email,
-        avatar: avatarPlaceholderUrl,
-        accountId,
-      },
+        appwriteConfig.databaseId,
+        appwriteConfig.usersCollectionId,
+        ID.unique(),
+        {
+          fullName,
+          email,
+          avatar: avatarPlaceholderUrl,
+          accountId,
+          storageLimit:  1024 * 1024 * 1024, // 1GB по умолчанию
+        },
     );
   }
 
@@ -141,13 +142,26 @@ export const signInUser = async ({ email }: { email: string }) => {
     handleError(error, "Failed to sign in user");
   }
 };
-export async function updateUserStorageLimit(userId: string, newLimit: number) {
-  const { databases } = await createSessionClient();
+export async function updateUserStorageLimit(accountId: string, newLimit: number) {
+  const { databases } = await createAdminClient();
+
+  const users = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.usersCollectionId,
+      [Query.equal("accountId", accountId)]
+  );
+
+  if (users.documents.length === 0) {
+    throw new Error("User not found");
+  }
+
+  const user = users.documents[0];
 
   await databases.updateDocument(
       appwriteConfig.databaseId,
       appwriteConfig.usersCollectionId,
-      userId,
+      user.$id,
       { storageLimit: newLimit }
   );
 }
+

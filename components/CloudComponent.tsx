@@ -1,5 +1,5 @@
-"use client";
 
+"use client";
 import {
     Label,
     PolarGrid,
@@ -7,7 +7,7 @@ import {
     RadialBar,
     RadialBarChart,
 } from "recharts";
-
+import {useEffect, useState} from "react";
 import {
     Card,
     CardContent,
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/card";
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { calculatePercentage, convertFileSize } from "@/lib/utils";
+import {getCurrentUser} from "@/lib/actions/user.actions";
 
 const chartConfig = {
     size: {
@@ -30,7 +31,16 @@ const chartConfig = {
 
 const CloudComponent = ({ used = 0 }: { used: number }) => {
     const chartData = [{ storage: "used", 10: used, fill: "white" }];
+    const [user, setUser] = useState<{ storageLimit?: string } | null>(null);
 
+    useEffect(() => {
+        async function fetchUser() {
+            const currentUser = await getCurrentUser();
+            setUser(currentUser);
+        }
+        fetchUser();
+    }, []);
+    console.log(user)
     return (
         <div>
             <Card className="flex  items-center bg-blue text-white">
@@ -91,7 +101,7 @@ const CloudComponent = ({ used = 0 }: { used: number }) => {
                 <CardHeader className="chart-details">
                     <CardTitle className="chart-title">Доступное хранилище</CardTitle>
                     <CardDescription className="chart-description">
-                        {used ? convertFileSize(used) : "2GB"} / 2GB
+                        {used ? convertFileSize(used) : "1GB"} / {convertFileSize(Number(user?.storageLimit) || 1024 ** 3)}
                     </CardDescription>
                 </CardHeader>
 

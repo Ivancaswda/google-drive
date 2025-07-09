@@ -29,7 +29,8 @@ interface Props {
   email: string;
   used: number;
   total: number;
-  currentUser: any
+  currentUser: any,
+
 }
 
 const Sidebar =  ({currentUser, used, total }: Props) => {
@@ -51,10 +52,11 @@ const Sidebar =  ({currentUser, used, total }: Props) => {
     });
     const data = await res.json();
     const stripe = await stripePromise;
+    console.log(stripe)
     stripe?.redirectToCheckout({ sessionId: data.id });
-
+    console.log(data)
   };
-  const CHEСKOUT_URL = "https://codevex.lemonsqueezy.com/buy/b4c3a095-fd0c-4258-9506-7fbf79412b16";
+ // const CHEСKOUT_URL = "https://codevex.lemonsqueezy.com/buy/b4c3a095-fd0c-4258-9506-7fbf79412b16";
 
     return (
     <aside className="sidebar">
@@ -138,7 +140,7 @@ const Sidebar =  ({currentUser, used, total }: Props) => {
           <p className="caption">{email}</p>
         </div>
       </div> */}
-        <ChartClient used={used} total={total}/>
+        <ChartClient  used={used} total={total}/>
 
 
         <button onClick={handleClick} className='flex items-center justify-center gap-2 rounded-3xl border  border-blue py-6 font-semibold  text-blue transition hover:scale-105 hover:bg-muted/50 '>

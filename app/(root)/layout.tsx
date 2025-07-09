@@ -22,13 +22,15 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
 
 
 
-    const used = totalSpace.used;
-    const total = 2 * 1024 ** 3;
+    const used = totalSpace.used
+    console.log(totalSpace)
+    const total =  currentUser?.storageLimit
+    console.log(currentUser)
   if (!currentUser) return redirect("/sign-in");
 
   return (
     <main className="flex h-screen">
-      <Sidebar currentUser={currentUser} {...currentUser} used={used} total={total} />
+      <Sidebar currentUser={currentUser} {...currentUser}  used={used} total={total} />
 
       <section className="flex h-full flex-1 flex-col">
         <MobileNavigation {...currentUser} />

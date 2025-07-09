@@ -8,7 +8,7 @@ interface Props {
     total: number;
 }
 
-const ChartClient = ({ used, total }: Props) => {
+const ChartClient = ({ used, total,  }: Props) => {
     const percentUsed = (used / total) * 100;
     console.log(percentUsed)
     console.log(used, total)
@@ -16,7 +16,7 @@ const ChartClient = ({ used, total }: Props) => {
         <div className="hidden space-y-4 rounded-xl border border-white/10 p-4  lg:block">
             <div className="flex items-center justify-between">
                 <p className="text-sm ">
-                    {convertFileSize(used)} из {convertFileSize(total)} использовано
+                    {convertFileSize(used)} из {convertFileSize(Number(total))} использовано
                 </p>
                 <span className="text-sm ">{percentUsed.toFixed(2)}%</span>
             </div>

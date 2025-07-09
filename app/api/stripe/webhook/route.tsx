@@ -14,7 +14,7 @@ const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY!, {
     apiVersion: "2024-04-10",
 });
 
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+const endpointSecret = process.env.NEXT_PUBLIC_WEBHOOK_SECRET!;
 
 export async function POST(req: NextRequest) {
     const rawBody = await req.arrayBuffer();
@@ -30,10 +30,9 @@ export async function POST(req: NextRequest) {
         return new NextResponse("Webhook Error", { status: 400 });
     }
 
-    // плата
     if (event.type === "checkout.session.completed") {
         const session = event.data.object as Stripe.Checkout.Session;
-
+        console.log('payment success     ugadshgafsh !!!')
         const userId = session.metadata?.userId;
 
         if (userId) {
