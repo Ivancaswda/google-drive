@@ -31,7 +31,7 @@ import {Button} from "@/components/ui/button";
          };
 
          fetchSession();
-     }, []);
+     }, [searchParams]);
      console.log(sessionInfo)
      if (loading) return <div>Загрузка...</div>;
      if (!sessionInfo) return <div>Сессия не найдена</div>;
