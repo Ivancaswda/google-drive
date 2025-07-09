@@ -59,9 +59,16 @@ const OtpModal = ({
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogContent className="shad-alert-dialog">
-        <AlertDialogHeader className="relative flex justify-center">
-          <AlertDialogTitle className="h2 text-center">
-            Enter Your OTP
+        <AlertDialogHeader className="relative flex items-center justify-center">
+          <AlertDialogTitle className="h2 flex items-center gap-3 text-center">
+            <Image
+                src="/assets/icons/logo-full-brand.png"
+                alt="logo"
+                width={40}
+                height={40}
+                className=" hidden h-auto lg:block"
+            />
+            Введите код подтверждения
             <Image
               src="/assets/icons/close-dark.svg"
               alt="close"
@@ -71,9 +78,10 @@ const OtpModal = ({
               className="otp-close-button"
             />
           </AlertDialogTitle>
-          <AlertDialogDescription className="subtitle-2 text-center text-light-100">
-            We&apos;ve sent a code to{" "}
-            <span className="pl-1 text-brand">{email}</span>
+          <AlertDialogDescription className="subtitle-2 flex items-center text-center text-light-100">
+
+            Мы отправили код на вашу почту{" "}
+            <span className="pl-1 text-[#0a56e4]">{email}</span>
           </AlertDialogDescription>
         </AlertDialogHeader>
 
@@ -92,10 +100,10 @@ const OtpModal = ({
           <div className="flex w-full flex-col gap-4">
             <AlertDialogAction
               onClick={handleSubmit}
-              className="shad-submit-btn h-12"
+              className="h-12 bg-[#0a56e4] "
               type="button"
             >
-              Submit
+              Продолжить
               {isLoading && (
                 <Image
                   src="/assets/icons/loader.svg"
@@ -108,14 +116,14 @@ const OtpModal = ({
             </AlertDialogAction>
 
             <div className="subtitle-2 mt-2 text-center text-light-100">
-              Didn&apos;t get a code?
+              Не получили код?
               <Button
                 type="button"
                 variant="link"
-                className="pl-1 text-brand"
+                className="pl-1 text-[#0a56e4]"
                 onClick={handleResendOtp}
               >
-                Click to resend
+                Отправить заново
               </Button>
             </div>
           </div>

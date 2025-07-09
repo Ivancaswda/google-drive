@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { Toaster } from "@/components/ui/toaster";
 import {getFiles, getTotalSpaceUsed} from "@/lib/actions/file.actions";
 import {getUsageSummary} from "@/lib/utils";
+import {cookies} from "next/headers";
 
 export const dynamic = "force-dynamic";
 
@@ -22,6 +23,9 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
 
 
 
+    const session = (await cookies()).get("appwrite-session");
+    if (!session) return redirect('/sign-in')
+
     const used = totalSpace.used
     console.log(totalSpace)
     const total =  currentUser?.storageLimit
@@ -34,7 +38,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
 
       <section className="flex h-full flex-1 flex-col">
         <MobileNavigation {...currentUser} />
-        <Header userId={currentUser.$id} accountId={currentUser.accountId} />
+        <Header user={currentUser} userId={currentUser.$id} accountId={currentUser.accountId} />
         <div className="main-content">{children}</div>
       </section>
 

@@ -100,34 +100,34 @@ const Sidebar =  ({currentUser, used, total }: Props) => {
 
       <nav className="sidebar-nav">
         <ul className="flex flex-1 flex-col gap-6">
-          {navItems.map(({ url, name, icon }) => (
-            <Link key={name} href={url} className="rounded-full transition hover:bg-blue/20 lg:w-full">
-              <li
-                className={cn(
-                  "sidebar-nav-item",
-                  pathname === url && "bg-blue ",
-                )}
-              >
-                <Image
-                  src={icon}
-                  alt={name}
-                  width={24}
-                  height={24}
-                  className={cn(
-                    "nav-icon",
-                    pathname === url && "nav-icon-active",
-                  )}
-                />
-                <p className="hidden lg:block">{name}</p>
-              </li>
-            </Link>
-          ))}
+          {navItems.map(({url, name, icon}) => {
+
+          const Icon = icon
+                return(
+                <Link
+                    key={name}
+                    href={url}
+                    className="rounded-full transition hover:bg-blue/20 lg:w-full"
+                >
+                  <li
+                      className={cn("sidebar-nav-item", pathname === url && "bg-blue")}
+                  >
+                    {typeof icon === "string" ? (
+                        <img src={icon} alt={name} className="size-5"/>
+                    ) : (
+                        <Icon className="size-5"/>
+                    )}
+                    <p className="hidden lg:block">{name}</p>
+                  </li>
+                </Link>
+            )
+          }
+          )}
         </ul>
       </nav>
 
 
-
-        {/*    <div className="sidebar-user-info">
+      {/*    <div className="sidebar-user-info">
         <Image
           src={avatar}
           alt="Avatar"
@@ -140,17 +140,18 @@ const Sidebar =  ({currentUser, used, total }: Props) => {
           <p className="caption">{email}</p>
         </div>
       </div> */}
-        <ChartClient  used={used} total={total}/>
+      <ChartClient used={used} total={total}/>
 
+      {currentUser.storageLimit !== 2 * 1024 ** 3 && <button onClick={handleClick}
+                                                             className='flex items-center justify-center gap-2 rounded-3xl border  border-blue py-6 font-semibold  text-blue transition hover:scale-105 hover:bg-muted/50 '>
+        <IndentIncreaseIcon className='text-center '/>
+        <p className='hidden lg:block'>
+          Увеличить объём хранилища</p>
 
-        <button onClick={handleClick} className='flex items-center justify-center gap-2 rounded-3xl border  border-blue py-6 font-semibold  text-blue transition hover:scale-105 hover:bg-muted/50 '>
-          <IndentIncreaseIcon className='text-center '/>
-          <p className='hidden lg:block'>
-            Увеличить объём хранилища</p>
+      </button>}
 
-        </button>
 
     </aside>
-  );
+    );
 };
 export default Sidebar;

@@ -1,28 +1,31 @@
+import {PictureInPicture2Icon, StarIcon, TrashIcon, LayoutDashboardIcon, BoxIcon} from "lucide-react";
+
+
 export const navItems = [
   {
     name: "Мой диск",
-    icon: "/assets/icons/dashboard.svg",
+    icon: LayoutDashboardIcon,
     url: "/",
   },
 
   {
     name: "Недавние",
-    icon: "/assets/icons/images.svg",
+    icon: PictureInPicture2Icon,
     url: "/recent",
   },
   {
     name: "Помеченные",
-    icon: "/assets/icons/video.svg",
+    icon: StarIcon,
     url: "/starred",
   },
   {
     name: "Корзина",
-    icon: "/assets/icons/others.svg",
+    icon: TrashIcon,
     url: "/busket",
   },
   {
     name: "Хранилище",
-    icon: "/assets/icons/others.svg",
+    icon: BoxIcon,
     url: "/cloud",
   },
 ];

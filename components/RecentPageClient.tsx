@@ -17,6 +17,7 @@ import { convertFileSize } from "@/lib/utils";
 import { Thumbnail } from "@/components/Thumbnail";
 import ActionDropdown from "@/components/ActionDropdown";
 import Sort from "@/components/Sort";
+import {usePathname} from "next/navigation";
 
 interface UsageSummary {
     title: string;
@@ -34,7 +35,7 @@ interface DashboardClientProps {
 const RecentPageClient = ({ usageSummary, files }: DashboardClientProps) => {
     const [selectedType, setSelectedType] = useState("all");
     const [sortBy, setSortBy] = useState("newest");
-
+    const pathname =usePathname()
 
     const filteredSummary =
         selectedType === "all"
@@ -60,7 +61,7 @@ const RecentPageClient = ({ usageSummary, files }: DashboardClientProps) => {
         } else if (sortBy === "name-z") {
             return b.name.localeCompare(a.name);
         }
-        return 0;
+        return 0
     });
 
 
@@ -79,8 +80,9 @@ const RecentPageClient = ({ usageSummary, files }: DashboardClientProps) => {
 
 
 
-            <section className="dashboard-recent-files mt-10 w-full">
-                <h2 className="h3 xl:h2 mb-4 text-light-100">Недавние файлы</h2>
+            <section className="mt-10 w-full">
+                {pathname !== '/cloud' && <h2 className="h3 xl:h2 mb-4 text-light-100">Недавние файлы</h2>}
+
                 {sortedFiles.length > 0 ? (
                     <div className="overflow-auto rounded-lg border border-gray-200">
                         <table className="min-w-full text-left text-sm">
@@ -133,7 +135,17 @@ const RecentPageClient = ({ usageSummary, files }: DashboardClientProps) => {
                         </table>
                     </div>
                 ) : (
-                    <p className="empty-list">No files uploaded</p>
+                    <div>
+
+                        <img
+                            src="https://ssl.gstatic.com/docs/doclist/images/empty_state_recents_v4.svg"
+                            alt="No starred files"
+                            className="mx-auto mb-4 h-[200px] w-[250px]"
+                        />
+                        <p className="text-center text-lg ">Файлы не найдены!</p>
+                        <p className="mt-2 text-center text-sm text-gray-600">Вы пока не загрузили не одного файла в
+                            google drive</p>
+                    </div>
                 )}
             </section>
         </div>

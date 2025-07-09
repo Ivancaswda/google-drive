@@ -46,6 +46,7 @@ const TrashPage = () => {
                 </div>
             ) : (
                 <div>
+
                     <img
                         src="https://ssl.gstatic.com/docs/doclist/images/empty_state_trash_v4.svg"
                         alt="No starred files"

@@ -70,6 +70,9 @@ const DashboardClient = ({ usageSummary, files }: DashboardClientProps) => {
     });
 
 
+
+
+
     const formatDateToRus = (dateString: string) => {
         const date = new Date(dateString);
         return date.toLocaleDateString("ru-RU", {
@@ -169,7 +172,16 @@ const DashboardClient = ({ usageSummary, files }: DashboardClientProps) => {
                         </table>
                     </div>
                 ) : (
-                    <p className="empty-list">Пока нету файлов</p>
+                    <div>
+
+                        <img
+                            src="https://ssl.gstatic.com/docs/doclist/images/empty_state_recents_v4.svg"
+                            alt="No starred files"
+                            className="mx-auto mb-4 h-[200px] w-[250px]"
+                        />
+                        <p className="text-center text-lg ">Файлы не найдены!</p>
+                        <p className="mt-2 text-center text-sm text-gray-600">Вы пока не загрузили не одного файла в google drive</p>
+                    </div>
                 )}
             </section>
         </div>

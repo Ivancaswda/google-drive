@@ -78,7 +78,7 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
               {/* uploader */}
               <div {...getRootProps()} className="cursor-pointer">
                   <input {...getInputProps()} accept={getAcceptedTypes(uploadType)}/>
-                  <Button type="button" className={cn("uploader-button", className)}>
+                  <Button type="button" className={cn("uploader-button flex items-center justify-center mx-auto", className)}>
                       <Image src="/assets/icons/upload.svg" alt="upload" width={24} height={24}/>
                       <p>Загрузить</p>
                   </Button>
