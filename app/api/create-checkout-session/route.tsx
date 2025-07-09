@@ -11,7 +11,9 @@ export async function POST() {
     try {
 
     const currentUser = await getCurrentUser();
-
+        if (!currentUser) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         line_items: [
@@ -21,7 +23,7 @@ export async function POST() {
             },
         ],
         mode: "payment",
-        success_url: `${process.env.NEXT_PUBLIC_APP_URL}/success`,
+        success_url: `${process.env.NEXT_PUBLIC_APP_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/failed`,
         metadata: {
             userId: currentUser.accountId, //  ID Appwrite пользователя
